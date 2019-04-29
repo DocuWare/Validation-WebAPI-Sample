@@ -78,9 +78,9 @@ Guid of the dialog for which the validation is made.
 #### DialogType
 Type of the dialog. Available values are:
 
-> InfoDialog - Info dialog for editing index values.
+> _InfoDialog - Info dialog for editing index values.
 
-> Store - Store dialog for storing new documents in the file cabinet.
+> _Store - Store dialog for storing new documents in the file cabinet.
 Values
 A list of values to be validated. Each value contains the following elements:
 
@@ -122,7 +122,7 @@ Reason for the failed validation. This is the message that is shown to the user.
 
 ## Register validation service in DocuWare
 - Open DocuWare configuration and edit the details of the desired store dialog. 
-> You can also configure validation in info dialogs. So it will be triggered on every updated document.
+> _You can also configure validation in info dialogs. So it will be triggered on every updated document.
 
 - Run the Project, get the Server URL and adapt the following URL: http://localhost:63486/api/validation/post
 - After testing the availability of the service you can store your changes.
@@ -137,7 +137,7 @@ For every stored document by the doc. type “invoice” an amount must be provi
 
 2. Check for already existing invoices before storing
 This is a bit more complex check. Before storing any document of doc.type “invoice” it will check via a Platform REST API call if a similar document with the same document number, document date and supplier is already existing. 
-> _ NOTE: Configure DocuWare connection and search dialog GUID accordingly in the settings file. _ 
+> _Configure DocuWare connection and search dialog GUID accordingly in the settings file. 
 
 3. Check for correct due date
 By this we make sure that the due date is in future. 
