@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidationWebAPI", "ValidationWebAPI\ValidationWebAPI.csproj", "{BFC8BE81-BCA5-4CAC-8524-90A384417C37}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFC8BE81-BCA5-4CAC-8524-90A384417C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC8BE81-BCA5-4CAC-8524-90A384417C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC8BE81-BCA5-4CAC-8524-90A384417C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC8BE81-BCA5-4CAC-8524-90A384417C37}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FCE0618D-A16D-47DD-B302-229AA939A0B8}
+	EndGlobalSection
+EndGlobal
