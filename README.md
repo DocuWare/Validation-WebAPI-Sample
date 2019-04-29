@@ -124,7 +124,7 @@ Reason for the failed validation. This is the message that is shown to the user.
 - Open DocuWare configuration and edit the details of the desired store dialog. 
 > You can also configure validation in info dialogs. So it will be triggered on every updated document.
 
-- Register this URL as your validation web service URL: http://127.0.0.1:4444/api (applies to locally running validation service)
+- Run the Project, get the Server URL and adapt the following URL: http://localhost:63486/api/validation/post
 - After testing the availability of the service you can store your changes.
 - Now you're ready to complete validations before storing. Any unhandled error message will be displayed in the command prompt. All handled validation errors will be directly displayed by the web client.
 
