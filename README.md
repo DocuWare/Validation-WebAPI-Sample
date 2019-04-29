@@ -98,7 +98,7 @@ the db name of the field.
 - Item - The value of the field formatted as described above.
 
 ## Expected JSON response format by DocuWare
-> _ NOTE: Make sure you always return HTTP status code 200. Because this is used for testing the availability of the validation service! _
+> Make sure you always return HTTP status code 200. Because this is used for testing the availability of the validation service!
 
 The expected response is JSON with the following structure:
 ```c#
@@ -122,7 +122,7 @@ Reason for the failed validation. This is the message that is shown to the user.
 
 ## Register validation service in DocuWare
 - Open DocuWare configuration and edit the details of the desired store dialog. 
-> _ NOTE: You can also configure validation in info dialogs. So it will be triggered on every updated document. _
+> You can also configure validation in info dialogs. So it will be triggered on every updated document.
 
 - Register this URL as your validation web service URL: http://127.0.0.1:4444/api (applies to locally running validation service)
 - After testing the availability of the service you can store your changes.
