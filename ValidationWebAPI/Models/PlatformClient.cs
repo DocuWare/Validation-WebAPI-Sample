@@ -1,4 +1,5 @@
 ﻿using DocuWare.Platform.ServerClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -138,6 +139,14 @@ namespace ValidationWebAPI.Models
                 {
                     dialogExpressionConditions.Add(DialogExpressionCondition.Create(fieldName: item.FieldName, value: item.Item.ToString()));
                 }
+                if (item.Item != null && item.ItemElementName.ToLower() == "int")
+                {
+                    dialogExpressionConditions.Add(DialogExpressionCondition.Create(fieldName: item.FieldName, value: item.Item.ToString()));
+                }
+                if (item.Item != null && item.ItemElementName.ToLower() == "memo")
+                {
+                    dialogExpressionConditions.Add(DialogExpressionCondition.Create(fieldName: item.FieldName, value: item.Item.ToString()));
+                }
                 if (item.Item != null && item.ItemElementName.ToLower() == "date")
                 {
                     DateTime dateTime = DateTime.Parse(item.Item.ToString());
@@ -147,6 +156,15 @@ namespace ValidationWebAPI.Models
                 {
                     DateTime dateTime = DateTime.Parse(item.Item.ToString());
                     dialogExpressionConditions.Add(DialogExpressionCondition.Create(fieldName: item.FieldName, value: dateTime.ToString("s", CultureInfo.CreateSpecificCulture("en-US"))));
+                }
+                if (item.Item != null && item.ItemElementName.ToLower() == "keywords")
+                {
+                    var key = JsonConvert.DeserializeObject<DocumentIndexFieldKeywords>(item.Item.ToString());
+
+                    foreach (var keyword in key.Keyword)
+                    {
+                        dialogExpressionConditions.Add(DialogExpressionCondition.Create(item.FieldName, keyword));
+                    }
                 }
             }
             return dialogExpressionConditions;
