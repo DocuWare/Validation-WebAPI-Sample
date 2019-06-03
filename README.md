@@ -9,7 +9,7 @@ Create dynamic mandatory fields or lookups to external data or to DocuWare befor
 
 The validation inside DocuWare requires a REST service in order to send all index entries to this. With this sample application we're going to show you how easily you can setup your own validation webservice.
 
-##JSON send by DocuWare to validation service
+## JSON send by DocuWare to validation service
 
 ```c#
 {
