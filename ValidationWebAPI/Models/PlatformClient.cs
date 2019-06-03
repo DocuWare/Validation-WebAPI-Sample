@@ -4,17 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net.Http;
-using System.Web;
+using ValidationWebAPI.Models.Exceptions;
 
 namespace ValidationWebAPI.Models
 {
     class PlatformClient
     {
-        ServiceConnection connector;
-        Organization org;
+	    readonly ServiceConnection _connector;
+	    readonly Organization _org;
 
-        const string urlFormatString = @"{0}/docuware/platform";
+        const string UrlFormatString = @"{0}/docuware/platform";
 
 
         /// <summary> Constructor creating connection using DocuWare user's credential. </summary>
@@ -30,12 +29,12 @@ namespace ValidationWebAPI.Models
         public PlatformClient(string serverUrl, string organizationName, string userName, string userPassword)
         {
 
-            this.connector = ServiceConnection.Create(new System.Uri(String.Format(urlFormatString, serverUrl)),
-                                                      userName: userName,
-                                                      password: userPassword,
-                                                      organization: organizationName);
+            _connector = ServiceConnection.Create(new Uri(string.Format(UrlFormatString, serverUrl)),
+                                                      userName,
+                                                      userPassword,
+                                                      organizationName);
 
-            this.org = this.connector.Organizations[0];
+            _org = _connector.Organizations[0];
         }
 
 
@@ -44,7 +43,7 @@ namespace ValidationWebAPI.Models
         /// </summary>
         public IEnumerable<FileCabinet> GetAllFileCabinetsUserHasAccessTo()
         {
-            return (from fileCabinet in this.org.GetFileCabinetsFromFilecabinetsRelation().FileCabinet
+            return (from fileCabinet in _org.GetFileCabinetsFromFilecabinetsRelation().FileCabinet
                     where fileCabinet.IsBasket == false
                     select fileCabinet);
         }
@@ -55,8 +54,8 @@ namespace ValidationWebAPI.Models
         /// </summary>
         public IEnumerable<FileCabinet> GetAllDocumentTraysUserHasAccessTo()
         {
-            return (from fileCabinet in this.org.GetFileCabinetsFromFilecabinetsRelation().FileCabinet
-                    where fileCabinet.IsBasket == true
+            return (from fileCabinet in _org.GetFileCabinetsFromFilecabinetsRelation().FileCabinet
+                    where fileCabinet.IsBasket
                     select fileCabinet);
         }
 
@@ -67,7 +66,7 @@ namespace ValidationWebAPI.Models
         public FileCabinet GetFileCabinet(string fileCabinetName)
         {
             return (from fileCabinet in GetAllFileCabinetsUserHasAccessTo()
-                    where String.Compare(fileCabinet.Id, fileCabinetName, ignoreCase: true) == 0
+                    where string.Compare(fileCabinet.Id, fileCabinetName, StringComparison.InvariantCultureIgnoreCase) == 0
                     select fileCabinet).SingleOrDefault();
         }
 
@@ -78,7 +77,7 @@ namespace ValidationWebAPI.Models
         public FileCabinet GetDocumentTray(string documentTrayName)
         {
             return (from documentTray in GetAllDocumentTraysUserHasAccessTo()
-                    where String.Compare(documentTray.Name, documentTrayName, ignoreCase: true) == 0
+                    where string.Compare(documentTray.Name, documentTrayName, StringComparison.InvariantCultureIgnoreCase) == 0
                     select documentTray).SingleOrDefault();
         }
 
@@ -100,7 +99,7 @@ namespace ValidationWebAPI.Models
 
         private Dialog getDefaultSearchDialog(FileCabinet fileCabinet)
         {
-            return fileCabinet.GetDialogInfosFromSearchesRelation().Dialog.Where(dlg => dlg.IsDefault == !fileCabinet.IsBasket).FirstOrDefault().GetDialogFromSelfRelation();
+            return fileCabinet.GetDialogInfosFromSearchesRelation().Dialog.FirstOrDefault(dlg => dlg.IsDefault == !fileCabinet.IsBasket)?.GetDialogFromSelfRelation();
         }
 
         private DocumentsQueryResult runQueryForDocuments(Dialog dialog, DialogExpression query)
@@ -168,6 +167,11 @@ namespace ValidationWebAPI.Models
                 }
             }
             return dialogExpressionConditions;
+        }
+
+        public void Logout()
+        {
+			_connector.Disconnect();
         }
 
 

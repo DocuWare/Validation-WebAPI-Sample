@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using ValidationWebAPI.Models.Exceptions;
 
 namespace ValidationWebAPI.Models
 {
@@ -9,27 +8,27 @@ namespace ValidationWebAPI.Models
     {
         public void HasAmountOnInvoice(DlgInfos dlgInfos)
         {
-            var Amount = dlgInfos.Values.First(n => n.FieldName == "AMOUNT");
-            var DocType = dlgInfos.Values.First(n => n.FieldName == "DOCUMENT_TYPE");
+            var amount = dlgInfos.Values.First(n => n.FieldName == "AMOUNT");
+            var docType = dlgInfos.Values.First(n => n.FieldName == "DOCUMENT_TYPE");
 
-            if (Amount.Item == null && DocType.Item != null && DocType.Item.ToString().ToLower() == "invoice")
+            if (amount.Item == null && docType.Item != null && docType.Item.ToString().ToLower() == "invoice")
             {
-                throw new NoAmountFoundException("You did not povide any amount for this invoice");
+                throw new NoAmountFoundException("You did not provide any amount for this invoice");
             }    
         }
 
         public void IsPendingDateInFuture(DlgInfos dlgInfos)
         {
-            var Date = dlgInfos.Values.First(n => n.FieldName == "PENDING_DATE");
-            if (Date.Item == null)
+            var date = dlgInfos.Values.First(n => n.FieldName == "PENDING_DATE");
+            if (date.Item == null)
             {
                 throw new NoPendingDateException("Pending date has to be filled!");
             }
 
-            if (Date.Item != null)
+            if (date.Item != null)
             {
                 DateTime dateTimeNow = DateTime.UtcNow.Date;
-                DateTime dateTime = DateTime.Parse(Date.Item.ToString());
+                DateTime dateTime = DateTime.Parse(date.Item.ToString());
                 if (dateTimeNow > dateTime)
                 {
                     throw new PendingDateIsNotInFutureException("Please provide a pending date value in future!");
@@ -46,8 +45,8 @@ namespace ValidationWebAPI.Models
             }
             else
             {
-                int projectnumber = Int32.Parse(project.Item.ToString());
-                if (!(projectnumber >= 100))
+                int projectNumber = Int32.Parse(project.Item.ToString());
+                if (!(projectNumber >= 100))
                 {
                     throw new InvalidProjectNumberException("Please provide a valid Project Number >= 100");
                 }

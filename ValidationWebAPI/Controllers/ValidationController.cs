@@ -13,39 +13,42 @@ using ValidationWebAPI.Models;
 
 namespace ValidationWebAPI.Controllers
 {
-    public class ValidationController : ApiController
-    {
-        [System.Web.Http.HttpPost]
-        public IHttpActionResult Post(DlgInfos dlg)
-        {
-            PlatformClient platformClient = new PlatformClient("http://localhost/", "Peters Engineering", "admin", "admin");
+	public class ValidationController : ApiController
+	{
+		[System.Web.Http.HttpPost]
+		public IHttpActionResult Post(DlgInfos dlgInfos)
+		{
+			PlatformClient platformClient = null;
+			try
+			{
+				platformClient = new PlatformClient("http://localhost/", "Peters Engineering", "admin", "admin");
 
-            DlgInfos dlgInfos = dlg;
+			
+				Validator validator = new Validator();
+				validator.HasAmountOnInvoice(dlgInfos);
+				validator.IsPendingDateInFuture(dlgInfos);
+				validator.ProjectExistsInExternalApp(dlgInfos);
+
+				platformClient.IsDuplicate(dlgInfos);
+
+				return Json(new ValidationResponseModel(ValidationResponseStatus.OK, "Everything was fine!"));
+			}
+			catch (Exception ex)
+			{
+				return Json(CreateErrorResponse(ex));
+			}
+			finally
+			{
+				platformClient?.Logout();
+			}
+		}
+
+		private ValidationResponseModel CreateErrorResponse(Exception ex)
+		{
+			return new ValidationResponseModel(ValidationResponseStatus.Failed, ex.Message);
+		}
 
 
-            try
-            {
-                Validator validator = new Validator();
-                validator.HasAmountOnInvoice(dlgInfos);
-                validator.IsPendingDateInFuture(dlgInfos);
-                validator.ProjectExistsInExternalApp(dlgInfos);
 
-                platformClient.IsDuplicate(dlgInfos);
-
-                return Json(new ValidationResponseModel(ValidationResponseStatus.OK, "Everything was fine!"));
-            }
-            catch (Exception ex)
-            {
-                return Json(CreateErrorResponse(ex));
-            }
-        }
-
-        private ValidationResponseModel CreateErrorResponse(Exception ex)
-        {
-            return new ValidationResponseModel(ValidationResponseStatus.Failed, ex.Message);
-        }
-
-
-
-    }
+	}
 }
