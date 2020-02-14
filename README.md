@@ -55,6 +55,27 @@ The validation inside DocuWare requires a REST service in order to send all inde
 		"Item": {
 			"Keyword": ["keyword1", "keyword2","keyword3"]
 		}
+	},
+	{
+		"FieldName":"TABLE_FIELD","ItemElementName":"Table",
+		"Item":
+			{
+			"Row":
+			[{
+			    "ColumnValue":
+				[
+				    {"FieldName":"FIELD_NAME","ItemElementName":"String","Item":"name1"},
+				    {"FieldName":"TABLE_DATECOLUMN","ItemElementName":"Date","Item":"2020-02-14T00:00:00Z"},
+				    {"FieldName":"TABLE_DECIMAL_COLUMN","ItemElementName":"Decimal","Item":"12.123"}
+				]
+			},
+			{
+			    "ColumnValue":
+				[{"FieldName":"FIELD_NAME","ItemElementName":"String","Item":"name2"},
+				{"FieldName":"TABLE_DATECOLUMN","ItemElementName":"Date","Item":"2020-02-13T00:00:00Z"},
+				{"FieldName":"TABLE_DECIMAL_COLUMN","ItemElementName":"Decimal","Item":"34.345"}]
+			}]
+    			}
 	}]
 }
 
